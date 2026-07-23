@@ -3,9 +3,11 @@ export interface QuickFilterDefinition {
   field: string;
   /** UID of the relation target, e.g. "api::site.site" */
   targetUid: string;
-  /** attribute on the target entry used as the pill label, e.g. "name" */
+  /** attribute on the target entry used as the option label, e.g. "name" */
   labelField: string;
-  /** 'single' renders a dropdown, 'multi' renders toggleable pills */
+  /** text on the dropdown trigger button, e.g. "Site" — defaults to `field` */
+  label?: string;
+  /** 'single' renders a single-choice dropdown, 'multi' a multi-select dropdown */
   mode: 'single' | 'multi';
 }
 

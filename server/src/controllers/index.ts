@@ -46,6 +46,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
 
         resolved.push({
           ...def,
+          label: def.label ?? def.field,
           options: entries.map((entry: any) => ({
             id: entry.id,
             documentId: entry.documentId,

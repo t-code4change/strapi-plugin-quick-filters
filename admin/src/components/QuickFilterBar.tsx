@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Flex, SingleSelect, SingleSelectOption, Button } from '@strapi/design-system';
-import { Check } from '@strapi/icons';
+import { Flex } from '@strapi/design-system';
 // eslint-disable-next-line camelcase
 import { unstable_useContentManagerContext as useContentManagerContext, useFetchClient } from '@strapi/strapi/admin';
 import { PLUGIN_ID } from '../pluginId';
 import { useRelationFilter } from '../utils/useRelationFilter';
+import { QuickSelectDropdown } from './QuickSelectDropdown';
 
 interface FilterOption {
   id: number;
@@ -14,6 +14,7 @@ interface FilterOption {
 
 interface ResolvedFilter {
   field: string;
+  label: string;
   mode: 'single' | 'multi';
   options: FilterOption[];
 }
@@ -21,54 +22,30 @@ interface ResolvedFilter {
 const QuickFilterField = ({ filter }: { filter: ResolvedFilter }) => {
   const { current, setValue } = useRelationFilter(filter.field);
 
-  if (filter.mode === 'single') {
-    const selectedId = current && 'id' in current && '$eq' in current.id ? current.id.$eq : undefined;
+  const selectedIds = !current
+    ? []
+    : '$eq' in current.id
+      ? [current.id.$eq]
+      : current.id.$in;
 
-    return (
-      <SingleSelect
-        placeholder="Tất cả"
-        value={selectedId !== undefined ? String(selectedId) : ''}
-        onClear={() => setValue(undefined)}
-        onChange={(value: string | number) =>
-          setValue(value !== '' ? { id: { $eq: Number(value) } } : undefined)
-        }
-      >
-        {filter.options.map((opt) => (
-          <SingleSelectOption key={opt.id} value={String(opt.id)}>
-            {opt.label}
-          </SingleSelectOption>
-        ))}
-      </SingleSelect>
-    );
-  }
-
-  const selectedIds =
-    current && 'id' in current && '$in' in current.id ? current.id.$in : ([] as number[]);
-
-  const toggle = (id: number) => {
-    const next = selectedIds.includes(id)
-      ? selectedIds.filter((existing) => existing !== id)
-      : [...selectedIds, id];
-    setValue(next.length ? { id: { $in: next } } : undefined);
+  const handleChange = (ids: number[]) => {
+    if (ids.length === 0) {
+      setValue(undefined);
+    } else if (filter.mode === 'single') {
+      setValue({ id: { $eq: ids[0] } });
+    } else {
+      setValue({ id: { $in: ids } });
+    }
   };
 
   return (
-    <Flex gap={1} wrap="wrap">
-      {filter.options.map((opt) => {
-        const isSelected = selectedIds.includes(opt.id);
-        return (
-          <Button
-            key={opt.id}
-            size="S"
-            variant={isSelected ? 'success' : 'tertiary'}
-            startIcon={isSelected ? <Check /> : undefined}
-            onClick={() => toggle(opt.id)}
-          >
-            {opt.label}
-          </Button>
-        );
-      })}
-    </Flex>
+    <QuickSelectDropdown
+      label={filter.label}
+      options={filter.options}
+      selectedIds={selectedIds}
+      multi={filter.mode === 'multi'}
+      onChange={handleChange}
+    />
   );
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-quick-filters",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Quick pill-select filters for Content Manager list view relation fields",
   "license": "MIT",
   "author": {
