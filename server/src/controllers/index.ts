@@ -5,7 +5,7 @@ interface ResolvedFilter extends QuickFilterDefinition {
   options: Array<{ id: number; documentId: string; label: string }>;
 }
 
-export default ({ strapi }: { strapi: Core.Strapi }) => ({
+const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async resolve(ctx: any) {
     const model = ctx.query.model as string | undefined;
 
@@ -64,3 +64,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     ctx.body = { filters: resolved };
   },
 });
+
+export default {
+  controller,
+};

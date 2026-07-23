@@ -1,12 +1,15 @@
 export default {
-  admin: [
-    {
-      method: 'GET',
-      path: '/resolve',
-      handler: 'controller.resolve',
-      config: {
-        policies: [],
+  admin: {
+    type: 'admin',
+    routes: [
+      {
+        method: 'GET',
+        path: '/resolve',
+        handler: 'controller.resolve',
+        config: {
+          policies: [],
+        },
       },
-    },
-  ],
+    ],
+  },
 };

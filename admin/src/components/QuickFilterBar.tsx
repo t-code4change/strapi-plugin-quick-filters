@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Flex, SingleSelect, SingleSelectOption, Button } from '@strapi/design-system';
+import { Check } from '@strapi/icons';
 // eslint-disable-next-line camelcase
 import { unstable_useContentManagerContext as useContentManagerContext, useFetchClient } from '@strapi/strapi/admin';
 import { PLUGIN_ID } from '../pluginId';
@@ -53,16 +54,20 @@ const QuickFilterField = ({ filter }: { filter: ResolvedFilter }) => {
 
   return (
     <Flex gap={1} wrap="wrap">
-      {filter.options.map((opt) => (
-        <Button
-          key={opt.id}
-          size="S"
-          variant={selectedIds.includes(opt.id) ? 'success' : 'tertiary'}
-          onClick={() => toggle(opt.id)}
-        >
-          {opt.label}
-        </Button>
-      ))}
+      {filter.options.map((opt) => {
+        const isSelected = selectedIds.includes(opt.id);
+        return (
+          <Button
+            key={opt.id}
+            size="S"
+            variant={isSelected ? 'success' : 'tertiary'}
+            startIcon={isSelected ? <Check /> : undefined}
+            onClick={() => toggle(opt.id)}
+          >
+            {opt.label}
+          </Button>
+        );
+      })}
     </Flex>
   );
 };
