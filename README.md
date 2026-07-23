@@ -3,7 +3,7 @@
 **One-click filter dropdowns for the Strapi Content Manager — no more Filters
 popover gymnastics.**
 
-![Quick Filters in action — filtering Products by site with a custom multi-select dropdown](docs/screenshot.png)
+![Quick Filters in action — filtering Articles by site with a custom multi-select dropdown](docs/screenshot.png)
 
 ## The problem
 
