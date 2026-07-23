@@ -28,7 +28,7 @@ const Trigger = styled.button<{ $active: boolean }>`
   gap: 6px;
   height: 3.2rem;
   padding: 0 1.2rem;
-  border-radius: 2rem;
+  border-radius: ${({ theme }) => theme.borderRadius};
   border: 1px solid
     ${({ theme, $active }) => ($active ? theme.colors.primary600 : theme.colors.neutral200)};
   background: ${({ theme, $active }) => ($active ? theme.colors.primary100 : theme.colors.neutral0)};
@@ -83,7 +83,7 @@ const ClearIcon = styled.span`
 const Panel = styled.div`
   position: absolute;
   top: calc(100% + 0.4rem);
-  left: 0;
+  right: 0;
   z-index: ${({ theme }) => theme.zIndices.popover};
   display: flex;
   flex-direction: column;
